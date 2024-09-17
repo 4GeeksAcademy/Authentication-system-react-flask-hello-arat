@@ -1,22 +1,21 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
 import { useNavigate } from "react-router-dom";
 
-export const Home = () => {
+
+export const Registro = () => {
 	const { store, actions } = useContext(Context);
 	const [mail, setMail] = useState("")
-	const [password, setPassword] = useState("") 
-	const navigate = useNavigate()
+	const [password, setPassword] = useState("")
+    const navigate = useNavigate()
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-		console.log(mail, password)
 		if (mail != "" && password != "") {
-			let resp = await actions.login(mail, password)
+			let resp = await actions.registro(mail, password)
 			if (resp) {
-				navigate("/demo")
+                navigate("/")
 			} else {
 				alert("error de ingreso")
 			}
@@ -27,7 +26,7 @@ export const Home = () => {
 
 	return (
 		<div className="text-center mt-5 container">
-			<h1>Inicie Sesion</h1>
+			<h1>Registrarse</h1>
 			<form>
 				<div className="mb-3">
 					<label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
