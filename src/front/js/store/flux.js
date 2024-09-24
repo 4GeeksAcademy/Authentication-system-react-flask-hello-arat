@@ -21,10 +21,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 					const data = await resp.json()
 					if (resp.status == 200) {
-						console.log(data)
+						
 						localStorage.setItem("token", data.access_token)
 						setStore({auth:true, user: data.user})
-						console.log(data.user)
+						//console.log(data.user)
 						// don't forget to return something, that is how the async resolves
 						return true;
 					} else {
@@ -50,7 +50,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 					const data = await resp.json()
 					if (resp.status == 201) {
-						console.log(data)
+						//console.log(data)
 						// don't forget to return something, that is how the async resolves
 						return true;
 					} else {
@@ -61,9 +61,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false
 				}
 			},
+            
+			logOut: () => {
+				localStorage.removeItem("token")
+				setStore({auth:false})
+			}, 
 
+			valid: async () => {
+				try {
+					// fetching data from the backend
+					const resp = await fetch(process.env.BACKEND_URL + "validation", {
+						method: "GET",
+						headers: { "Content-Type": "application/json", 
+							"Authorization": "Bearer " + localStorage.getItem("token")
+						 },
+					})
+					const data = await resp.json()
+					//console.log(data)
+					return true
+				} catch (error) {
+					console.log("Error loading message from backend", error)
+					return false
+				}
+			},
 		}
 	};
+
 };
 
 export default getState;
+
